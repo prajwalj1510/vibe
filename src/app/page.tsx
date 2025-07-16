@@ -1,16 +1,22 @@
-// "use client"
+"use client"
+
 import { Button } from "@/components/ui/button"
-// import { useTRPC } from "@/trpc/client"
-// import { useQuery } from "@tanstack/react-query"
+import { useTRPC } from "@/trpc/client"
+import { useMutation } from "@tanstack/react-query"
+import { toast } from "sonner"
 
-// import { caller } from "@/trpc/server"
+// import { Button } from "@/components/ui/button"
+// // import { useTRPC } from "@/trpc/client"
+// // import { useQuery } from "@tanstack/react-query"
 
-import { Suspense } from "react"
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
-import { getQueryClient, trpc } from "@/trpc/server"
-import {Client} from './client'
+// // import { caller } from "@/trpc/server"
 
-const page = async() => {
+// import { Suspense } from "react"
+// import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
+// import { getQueryClient, trpc } from "@/trpc/server"
+// import {Client} from './client'
+
+const page = () => {
 
   // Client side TRPC fetching
   // const trpc = useTRPC()
@@ -19,8 +25,16 @@ const page = async() => {
 
   // const data = await caller.hello({"text":"Prajwal"})
 
-  const queryClient = getQueryClient()
-  void queryClient.prefetchQuery(trpc.hello.queryOptions({text:"Prajwal Prefetch"}))
+  // const queryClient = getQueryClient()
+  // void queryClient.prefetchQuery(trpc.hello.queryOptions({text:"Prajwal Prefetch"}))
+
+
+  const trpc = useTRPC()
+  const invoke = useMutation(trpc.invoke.mutationOptions({
+    onSuccess: () => {
+      toast.success('Background Job started')
+    }
+  }))
 
   return (
     <div>
@@ -32,11 +46,16 @@ const page = async() => {
 
       {/* {JSON.stringify(data)} */}
 
-      <HydrationBoundary state={dehydrate(queryClient)}>
+      {/* <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense fallback={<p>Loading....</p>}>
             <Client/>
           </Suspense>
-      </HydrationBoundary>
+      </HydrationBoundary> */}
+
+      <div className="p-4 max-w-7xl mx-auto ">
+          Test 
+          <Button disabled={invoke.isPending} onClick={()=> invoke.mutate({text: "Prajwal"  })}>Invoke Background Job</Button>
+      </div>
 
 
     </div>

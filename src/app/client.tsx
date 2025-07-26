@@ -12,6 +12,7 @@ export const Client = ()=>{
     return (
         <div>
             {JSON.stringify(data)}
+            {JSON.stringify(data)}
         </div>
     )
 }

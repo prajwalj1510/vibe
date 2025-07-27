@@ -46,11 +46,11 @@ const page = () => {
 
       {/* {JSON.stringify(data)} */}
 
-      {/* <HydrationBoundary state={dehydrate(queryClient)}>
+      <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense fallback={<p>Loading....</p>}>
             <Client/>
           </Suspense>
-      </HydrationBoundary> */}
+      </HydrationBoundary>
 
       <div className="p-4 max-w-7xl mx-auto ">
           Test 
